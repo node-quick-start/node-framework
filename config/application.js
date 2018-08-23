@@ -1,27 +1,21 @@
-const Koa = require('koa')
-const EnvConfig = require('./env.json') || {}
+const {activemodels} = require('../libs/autoload')
+const envValues = require('./env.json') || {}
 class Application {
 	
 	static runApp (cusConfig = {}) {
-		const envConfig = Object.assign(EnvConfig, cusConfig)
+		const envConfig = Object.assign({}, envValues, cusConfig)
 		const application = new Application(envConfig)
-		const koaInstance = new Koa()
-		// response
-		koaInstance.use(function (ctx) {
-			ctx.body = 'Hello Koa';
-			console.log(this)
-		}.bind(application));
-		
-		koaInstance.listen(3000)
-		console.log('app run', application.$envConfig)
+		require('./koa').runKoa(application)
 	}
 	
 	constructor(envConfig) {
-		this._$envConfig$_ = envConfig
-	}
-	
-	get $envConfig () {
-		return this._$envConfig$_
+		Object.defineProperties(this, { "$envConfig": { "get": () => { return envConfig } } })
+		Object.defineProperties(this, { "$models": { "get": () => { return activemodels } } })
+		for (let modelKey in activemodels) {
+			Object.defineProperties(this, {
+				[modelKey]: { "get": () => { return activemodels[modelKey] } }
+			})
+		}
 	}
 }
 module.exports = Application

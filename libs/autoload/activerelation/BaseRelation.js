@@ -12,7 +12,15 @@ module.exports = class {
 		let primaryKey = this.sequelizeModel.primaryKeyAttributes[0]
 		return this.sequelizeModel.findOne({where: this.query = {[primaryKey]: primaryKeyValue}})
 	}
-	async findBy (options) {
-		return await this.sequelizeModel.findOne({where: this.query = options})
+	findBy (options) {
+		return this.sequelizeModel.findOne({where: this.query = options})
+	}
+	all () {
+		this.query = {}
+		return this.sequelizeModel.findAll()
+	}
+	where (options) {
+		this.query = {}
+		return this.sequelizeModel.findAll({where: this.query = options})
 	}
 }

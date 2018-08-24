@@ -1,15 +1,13 @@
-const path = require('path')
 const ActiveRelation = require('../activerelation')
-const config = require('./config')
-const ApplicationRecord = require(path.resolve(config.modelsPath, './concerns/ApplicationRecord.js'))
-module.exports = class BaseModel extends ApplicationRecord {
+module.exports = class BaseModel {
 	static get newActiveRelation () {
 		return new ActiveRelation(this)
 	}
 	static find (primaryKeyValue) { return this.newActiveRelation.find(primaryKeyValue) }
-	static findBy (primaryKeyValue) { return this.newActiveRelation.findBy(primaryKeyValue) }
+	static findBy (options) { return this.newActiveRelation.findBy(options) }
+	static all () { return this.newActiveRelation.all() }
+	static where (options) { return this.newActiveRelation.where(options) }
 	
 	constructor () {
-		super(...arguments)
 	}
 }

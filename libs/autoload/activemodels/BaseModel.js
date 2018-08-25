@@ -1,7 +1,7 @@
 const ActiveRelation = require('../activerelation')
 module.exports = class BaseModel {
 	static get newActiveRelation () {
-		return new ActiveRelation(this)
+		return new ActiveRelation(this.sequelizeModel)
 	}
 	static find (primaryKeyValue) { return this.newActiveRelation.find(primaryKeyValue) }
 	static findBy (options) { return this.newActiveRelation.findBy(options) }

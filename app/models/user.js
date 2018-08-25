@@ -1,8 +1,19 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    username: DataTypes.STRING,
-    email: DataTypes.STRING
+    username: {
+    	type: DataTypes.STRING,
+	    allowNull: false,
+	    unique: true,
+	    // http://docs.sequelizejs.com/manual/tutorial/models-definition.html#validations
+	    validate: {
+		    len: [6, 20]
+	    }
+    },
+    email: {
+    	type: DataTypes.STRING,
+	    unique: true
+    }
   }, {
 		underscored: true,
 	});

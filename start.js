@@ -1,4 +1,6 @@
 let Application = require('./config/application')
 Application.runApp()
 
-console.log(User.prototype.prototype)
+User.transaction(function (t) {
+	console.log(t)
+})

@@ -10,12 +10,10 @@ module.exports = {
       },
       username: {
         type: Sequelize.STRING,
-				allowNull: false,
-				unique: true
+				allowNull: false
       },
       email: {
-        type: Sequelize.STRING,
-				unique: true
+        type: Sequelize.STRING
       },
 			created_at: {
         allowNull: false,
@@ -29,8 +27,15 @@ module.exports = {
 			charset: 'utf8mb4',
 			collate: 'utf8mb4_general_ci',
 			timestamps: true
-    }).then(() => queryInterface.addIndex('Users', ['username']))
-			.then(() => queryInterface.addIndex('Users', ['email']));
+    }).then(() => queryInterface.addIndex('Users', ['username'], {
+    	  indicesType: 'UNIQUE'
+		    // indexName: 'composite_index'
+	    }
+    )).then(() => queryInterface.addIndex('Users', ['email'], {
+	      indicesType: 'UNIQUE'
+				// indexName: 'composite_index'
+			}
+		));
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Users');

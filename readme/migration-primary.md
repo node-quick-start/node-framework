@@ -60,3 +60,8 @@ rollback run seed
 sequelize db:seed:undo
 sequelize db:seed:undo:all
 ```
+
+# Model
+- [Data types](http://docs.sequelizejs.com/manual/tutorial/models-definition.html#data-types)
+- [Validations](http://docs.sequelizejs.com/manual/tutorial/models-definition.html#validations)
+- [Config](http://docs.sequelizejs.com/manual/tutorial/models-definition.html#configuration)

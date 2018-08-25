@@ -1,30 +1,70 @@
 module.exports = class {
-	constructor (sequelizeModel) {
-		this.sequelizeModel = sequelizeModel
+	constructor (model) {
+		this.model = model
+		this.queryMethod = 'findOne'
 		this.queryOptions = {}
 	}
-	set query (options) {
+	set query ({method, options}) {
+		this.queryMethod = method
 		this.queryOptions = Object.assign(this.queryOptions, options)
+	}
+	get async () {
+		return this.model[this.queryMethod](this.queryOptions)
+	}
+	// query
+	find (primaryKeyValue) {
+		let primaryKey = this.model.primaryKeyAttributes[0]
+		this.query = {method: 'findOne', options: {where: {[primaryKey]: primaryKeyValue}}}
 		return this
 	}
-	get data () {
-	}
-	find (primaryKeyValue) {
-		let primaryKey = this.sequelizeModel.primaryKeyAttributes[0]
-		return this.sequelizeModel.findOne({where: this.query = {[primaryKey]: primaryKeyValue}})
-		return this.query = {[primaryKey]: primaryKeyValue}
-	}
 	findBy (options) {
-		// return this.sequelizeModel.findOne({where: this.query = options})
-		return this.query = options
+		this.query = {method: 'findOne', options: {where: options}}
+		return this
 	}
 	all () {
-		// this.query = {}
-		// return this.sequelizeModel.findAll()
-		return this.query = {}
+		this.query = {method: 'findAll', options: {where: {}}}
+		return this
 	}
 	where (options) {
-		// return this.sequelizeModel.findAll({where: this.query = options})
-		return this.query = options
+		this.query = {method: 'findAll', options: {where: options}}
+		return this
+	}
+	minAsync (field, options = {}) {
+		this.query = {method: 'findAll', options: {where: options}}
+		return this.model.min(field, this.queryOptions)
+	}
+	maxAsync (field, options = {}) {
+		this.query = {method: 'findAll', options: {where: options}}
+		return this.model.max(field, this.queryOptions)
+	}
+	select (attributes) {
+		this.query = {method: 'findAll', attributes: attributes}
+		return this
+	}
+	raw () {
+		this.query = {method: 'findAll', raw: true}
+		return this
+	}
+
+	// pagination
+	limit (num) {
+		this.query = {method: 'findAll', limit: num}
+		return this
+	}
+	offset (num) {
+		this.query = {method: 'findAll', offset: num}
+		return this
+	}
+
+	// order
+	order (options) {
+		this.query = {method: 'findAll', order: options}
+		return this
+	}
+
+	// group
+	group (fields) {
+		this.query = {method: 'findAll', order: fields}
+		return this
 	}
 }

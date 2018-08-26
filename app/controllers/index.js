@@ -1,14 +1,21 @@
+const isObject = require('../../libs/utils/isObject')
 const KoaRouter = require('koa-router');
+const requireDirectory = require('require-directory');
 const router = new KoaRouter();
 module.exports = {
+	registerRouter (application, routers) {
+		isObject(routers) && Object.keys(routers).forEach((key) => {
+			let router = routers[key]
+			if (router instanceof KoaRouter) {
+				application.$koaInstance.use(router.routes()).use(router.allowedMethods());
+			} else {
+				this.registerRouter(application, router)
+			}
+		})
+	},
 	mount (application) {
 		Object.defineProperties(application, { "$koaRouter": { "get": () => { return router } } })
-		let api = require('./api')
-		for(let k1 in api) {
-			for (let k2 in api[k1]) {
-				let router = api[k1][k2]
-				application.$koaInstance.use(router.routes()).use(router.allowedMethods());
-			}
-		}
+		let routers = requireDirectory(module, '../controllers');
+		this.registerRouter(application, routers)
 	}
 }

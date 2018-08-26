@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 	    unique: true,
 	    // http://docs.sequelizejs.com/manual/tutorial/models-definition.html#validations
 	    validate: {
-		    len: [6, 20]
+		    len: [3, 30]
 	    }
     },
     email: {

@@ -1,3 +1,4 @@
+const reform = require('../app/reform')
 const {activemodels} = require('../libs/autoload')
 const envValues = require('./env.json') || {}
 class Application {
@@ -5,6 +6,7 @@ class Application {
 	static runApp (cusConfig = {}) {
 		const envConfig = Object.assign({}, envValues, cusConfig)
 		const application = new Application({envConfig})
+		reform.mount(application)
 		setApplicationGlobalVars(application)
 		require('./koa').runKoa(application)
 	}
@@ -27,5 +29,8 @@ function  setApplicationGlobalVars (application) {
 			[modelKey]: { "get": () => { return activemodels[modelKey] } }
 		})
 	}
+	Object.defineProperties(global, {
+		'$reform': { "get": () => { return application.$reform } }
+	})
 }
 module.exports = Application

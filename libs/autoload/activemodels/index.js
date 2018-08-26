@@ -1,5 +1,4 @@
 const config = require('./config')
-const path = require('path')
 const models = require(config.modelsPath)
 let records = {}
 for (let key in models) {

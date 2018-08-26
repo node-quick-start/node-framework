@@ -9,16 +9,15 @@ module.exports = function (models, key) {
 	if (fs.existsSync(concernModelPath)) {
 		ConcernModel = require(concernModelPath)(sequelizeModel)
 	}
-	return class extends ConcernModel {
-		static get newActiveRelation () {
-			return new ActiveRelation(this)
-		}
-		static get sequelize () {
-			return models.sequelize
-		}
+	let BaseModel = class extends ConcernModel {
+		static get newActiveRelation () { return new ActiveRelation(this) }
+		static get sequelizeModel () { return models[key] }
+		static get sequelize () { return models.sequelize }
+		static get Sequelize () { return models.Sequelize }
 		// Transaction
-		static transaction (cb) {
-			this.sequelize.transaction(cb)
+		// https://itbilu.com/nodejs/npm/EJO6CcCM-.html
+		static transaction (tranCb) {
+			return Promise.resolve(this.sequelize.transaction(tranCb))
 		}
 
 		// query
@@ -31,6 +30,7 @@ module.exports = function (models, key) {
 		static maxAsync (field, options = {}) { return this.newActiveRelation.maxAsync(field, options) }
 		static select (attributes) { return this.newActiveRelation.select(attributes) }
 		static raw () { return this.newActiveRelation.raw() }
+		static lock () { return this.newActiveRelation.lock() }
 
 		// pagination
 		static limit (num) { return this.newActiveRelation.limit(num) }
@@ -45,5 +45,13 @@ module.exports = function (models, key) {
 		constructor () {
 			super(...arguments)
 		}
+
+		withLock (asyncCb) {
+			return Promise.resolve(BaseModel.transaction(async (t) => {
+				await BaseModel.findOne({where: {id: this.id}, lock: t.LOCK.UPDATE})
+				await BaseModel.Sequelize.cls.bind(asyncCb, BaseModel.Sequelize.cls.context)();
+			}))
+		}
 	}
+	return BaseModel
 }

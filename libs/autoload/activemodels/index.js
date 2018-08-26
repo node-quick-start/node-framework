@@ -8,9 +8,6 @@ for (let key in models) {
 	}
 	let BaseModel = require('./BaseModel')(models, key)
 	records[key] = class extends BaseModel {
-		static get sequelizeModel () {
-			return models[key]
-		}
 		constructor (model) {
 			super(...arguments)
 		}

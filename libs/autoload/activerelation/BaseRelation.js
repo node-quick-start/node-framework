@@ -8,7 +8,7 @@ module.exports = class {
 		this.queryMethod = method
 		this.queryOptions = Object.assign(this.queryOptions, options)
 	}
-	get async () {
+	get promise () {
 		return this.model[this.queryMethod](this.queryOptions)
 	}
 	// query

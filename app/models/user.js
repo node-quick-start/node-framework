@@ -14,7 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     email: {
     	type: DataTypes.STRING,
 	    unique: true
-    }
+    },
+	  // Timestamps
+	  created_at: {
+  		type: DataTypes.DATE,
+		  get () {
+  			return this.getDataValue('created_at').toString()
+		  }
+	  },
+	  updated_at: {
+		  type: DataTypes.DATE,
+		  get () {
+			  return this.getDataValue('created_at').toString()
+		  }
+	  },
   }, {
 		underscored: true,
 	});

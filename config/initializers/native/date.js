@@ -1,3 +1,5 @@
+const moment = require('moment')
 Date.prototype.toString = function () {
-	console.log('hello world')
+	// return moment(this).format('YYYY-MM-DD HH:mm:ss')
+	return this
 }

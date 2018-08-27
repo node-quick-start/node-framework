@@ -4,7 +4,7 @@ class Base {
 	}
 
 	index (ctx, {model}) {
-		let query = ctx.query
+		let query = ctx.query.qs
 	}
 }
 module.exports = Base

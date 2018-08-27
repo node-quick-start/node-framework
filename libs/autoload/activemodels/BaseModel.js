@@ -25,7 +25,6 @@ module.exports = function (models, key) {
 		static findBy (options) { return this.newActiveRelation.findBy(options) }
 		static all () { return this.newActiveRelation.all() }
 		static where (options) { return this.newActiveRelation.where(options) }
-		static select (attributes) { return this.newActiveRelation.select(attributes) }
 		static minAsync (field, options = {}) { return this.newActiveRelation.minAsync(field, options) }
 		static maxAsync (field, options = {}) { return this.newActiveRelation.maxAsync(field, options) }
 		static select (attributes) { return this.newActiveRelation.select(attributes) }

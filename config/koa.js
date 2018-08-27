@@ -2,6 +2,7 @@ const Koa = require('koa')
 let controllers = require('../app/controllers')
 let middlewares = require('../app/middlewares')
 let koaInstance = new Koa()
+require('koa-qs')(koaInstance)
 module.exports = {
 	runKoa (application) {
 		koaInstance['defaultUse'] = koaInstance['use']

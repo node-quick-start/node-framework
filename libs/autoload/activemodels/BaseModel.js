@@ -9,9 +9,9 @@ module.exports = function (models, key) {
 	if (fs.existsSync(concernModelPath)) {
 		ConcernModel = require(concernModelPath)(sequelizeModel)
 	}
-	let BaseModel = class extends ConcernModel {
-		static get newActiveRelation () { return new ActiveRelation(this) }
-		static get sequelizeModel () { return models[key] }
+	class BaseModel extends ConcernModel {
+		static get newActiveRelation () { return new ActiveRelation(BaseModel) }
+		static get sequelizeModel () { return sequelizeModel }
 		static get sequelize () { return models.sequelize }
 		static get Sequelize () { return models.Sequelize }
 		// Transaction

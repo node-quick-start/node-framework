@@ -1,3 +1,4 @@
+require('./initializers')
 const reform = require('../app/reform')
 const {activemodels} = require('../libs/autoload')
 const envValues = require('./env.json') || {}

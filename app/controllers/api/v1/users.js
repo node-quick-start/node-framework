@@ -3,8 +3,9 @@ const router = new require('koa-router')({ prefix: '/api/v1/users' })
 router.get('/', async (ctx, next) => {
 	// let user = await User.all().find(1).promise
 
-	let u1 = await User.find(1).promise
+	// console.log(ctx.query)
 
+	let u1 = await User.find(1).promise
 
 	// User.transaction.then(transaction => {
 	// 	console.log(222, User.Sequelize.cls.get('transaction') === transaction)
@@ -24,7 +25,6 @@ router.get('/', async (ctx, next) => {
 	// 	// reject('aa')
 	// })
 	// console.log(4)
-
 	ctx.body = u1
 })
 

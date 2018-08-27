@@ -1,10 +1,10 @@
 class Base {
-	constructor (model) {
+	constructor (model, cxt) {
 		this.model = model
 	}
 
-	index (ctx, {model}) {
-		let query = ctx.query.qs
+	index ({ query }) {
+		return this.model.all().where(query.where).order(query.order).paginate(query.page || 1, query.per_page || 20).promise
 	}
 }
 module.exports = Base

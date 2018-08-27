@@ -1,6 +1,6 @@
 require('./initializers')
 const reform = require('../app/reform')
-const {activemodels} = require('../libs/autoload')
+const {activemodels, Query} = require('../libs/autoload')
 const envValues = require('./env.json') || {}
 class Application {
 	
@@ -14,6 +14,7 @@ class Application {
 	
 	constructor({envConfig}) {
 		Object.defineProperties(this, { "$models": { "get": () => { return activemodels } } })
+		Object.defineProperties(this, { "$Query": { "get": () => { return Query } } })
 		Object.defineProperties(this, { "$envConfig": { "get": () => { return envConfig } } })
 		for (let modelKey in activemodels) {
 			Object.defineProperties(this, {
@@ -30,6 +31,9 @@ function  setApplicationGlobalVars (application) {
 			[modelKey]: { "get": () => { return activemodels[modelKey] } }
 		})
 	}
+	Object.defineProperties(global, {
+		'$Query': { "get": () => { return application.$Query } }
+	})
 	Object.defineProperties(global, {
 		'$reform': { "get": () => { return application.$reform } }
 	})

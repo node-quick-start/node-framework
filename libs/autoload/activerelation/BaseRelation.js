@@ -57,7 +57,7 @@ module.exports = class {
 	}
 	paginate (page, perPage) {
 		let offset = (page - 1) * perPage
-		this.query = {method: 'findAll', options: {offset, limit: perPage}}
+		this.query = {method: 'findAll', options: {offset, limit: perPage - 0}}
 		return this
 	}
 

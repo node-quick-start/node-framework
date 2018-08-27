@@ -1,6 +1,6 @@
 const activemodels = require('./activemodels')
-const query = require('./query')
+const Query = require('./query')
 module.exports = {
 	activemodels,
-	query
+	Query
 }

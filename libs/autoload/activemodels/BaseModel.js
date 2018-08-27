@@ -35,6 +35,7 @@ module.exports = function (models, key) {
 		// pagination
 		static limit (num) { return this.newActiveRelation.limit(num) }
 		static offset (num) { return this.newActiveRelation.offset(num) }
+		static paginate (page = 1, perPage = 20) { return this.newActiveRelation.paginate(page, perPage) }
 
 		// order
 		static order (options) { return this.newActiveRelation.order(options) }

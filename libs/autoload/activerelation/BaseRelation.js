@@ -1,15 +1,18 @@
 module.exports = class {
 	constructor (model) {
-		this.model = model
-		this.queryMethod = 'findOne'
-		this.queryOptions = {}
+		this._model = model
+		this._queryMethod = 'findOne'
+		this._queryOptions = {}
 	}
-	set query ({method, options}) {
-		this.queryMethod = method
-		Object.assign(this.queryOptions, options)
-	}
+	get model () { return this._model }
+	get queryMethod () { return this._queryMethod }
+	get queryOptions () { return this._queryOptions }
 	get promise () {
 		return this.model[this.queryMethod](this.queryOptions)
+	}
+	set query ({method, options}) {
+		this._queryMethod = method
+		Object.assign(this._queryOptions, options)
 	}
 	// query
 	find (primaryKeyValue) {

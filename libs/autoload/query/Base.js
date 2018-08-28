@@ -1,7 +1,9 @@
 class Base {
-	constructor (model, cxt) {
-		this.model = model
+	constructor (model) {
+		this._model = model
 	}
+	set model (nv) { console.error(`not allow custom set model`) }
+	get model () { return this._model }
 
 	index ({ query }) {
 		return this.model.all().where(query.where).order(query.order).paginate(query.page || 1, query.per_page || 20).promise

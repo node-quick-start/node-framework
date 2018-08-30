@@ -4,12 +4,15 @@ const {activemodels, Query} = require('../libs/autoload')
 const envValues = require('./env.json') || {}
 class Application {
 	
-	static runApp (cusConfig = {}) {
+	static runApp (cusConfig) {
+		const { skipKoa } = cusConfig
 		const envConfig = Object.assign({}, envValues, cusConfig)
 		const application = new Application({envConfig})
 		reform.mount(application)
 		setApplicationGlobalVars(application)
-		require('./koa').runKoa(application)
+		if (!skipKoa) {
+			require('./koa').runKoa(application)
+		}
 	}
 	
 	constructor({envConfig}) {
